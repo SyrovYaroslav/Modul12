@@ -28,9 +28,6 @@ public class TaimeCounter {
                 watch();
             }
 
-            Thread massege = new Thread(new Massage(i));
-            massege.start();
-
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

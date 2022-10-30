@@ -1,15 +1,8 @@
 package task1;
 
-public class Massage implements Runnable{
-    private int sec;
+public class Massage {
 
-    public Massage(int sec){
-        this.sec = sec;
-    }
-    @Override
-    public void run() {
-        if (sec % 5 == 0) {
-            System.out.println("Прошло 5 секунд");
-        }
+    public void printMassage() {
+        System.out.println("Прошло 5 секунд");
     }
 }
