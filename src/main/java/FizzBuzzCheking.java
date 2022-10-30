@@ -1,16 +1,27 @@
-public class FizzBuzz  {
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+public class FizzBuzzCheking {
+    private final ArrayList<String> result = new ArrayList<>();
+
     public void check(int n) {
-        for (int i = 1; i < n; i++) {
-            Thread a = new Thread(new Number(i));
+        for (int i = 1; i <= n; i++) {
+            Thread a = new Thread(new Number(i, result));
+            Thread b = new Thread(new Fizz(i, result));
+            Thread c = new Thread(new Buzz(i, result));
+            Thread d = new Thread(new FizzBuzz(i, result));
+
             a.start();
-//            if (i % 3 == 0)...
-//            if (i % 5 == 0)...
-//            if (i % 15 == 0)...
-//            if (i % 3 != 0 && i % 5 != 0)...
+            b.start();
+            c.start();
+            d.start();
         }
-//        Thread a = new Thread(new Number(i));
-//        Thread b = new Thread(() -> System.out.println("buzz"));
-//        Thread c = new Thread(() -> System.out.println("fizz"));
-//        Thread d = new Thread(() -> System.out.println("fizz"));
+
     }
+
+    public void printResult() {
+        String finalResult = result.stream().collect(Collectors.joining(", "));
+        System.out.println(finalResult);
+    }
+
 }
