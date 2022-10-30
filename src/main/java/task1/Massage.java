@@ -1,3 +1,5 @@
+package task1;
+
 public class Massage implements Runnable{
     private int sec;
 

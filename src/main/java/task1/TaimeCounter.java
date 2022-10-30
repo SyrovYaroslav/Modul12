@@ -1,3 +1,5 @@
+package task1;
+
 public class TaimeCounter {
     private int hour;
     private int min;

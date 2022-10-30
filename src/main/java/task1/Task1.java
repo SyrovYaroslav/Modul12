@@ -1,8 +1,4 @@
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.*;
-import java.util.concurrent.*;
+package task1;
 
 public class Task1 {
 

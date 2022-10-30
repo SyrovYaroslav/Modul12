@@ -1,18 +1,20 @@
+package task2;
+
 import java.util.ArrayList;
 
-public class Number implements Runnable{
+public class Buzz implements Runnable{
     private int n;
     private ArrayList<String> result = new ArrayList<>();
 
-    public Number(int n, ArrayList<String> result) {
+    public Buzz(int n, ArrayList<String> result) {
         this.n = n;
         this.result = result;
     }
 
     @Override
     public void run() {
-        if (n % 3 != 0 && n % 5 != 0) {
-            result.add(String.valueOf(n));
+        if (n % 15 != 0 && n % 5 == 0){
+            result.add("buzz");
         }
     }
 }
