@@ -1,4 +1,4 @@
-public class TaimeCounter implements Runnable {
+public class TaimeCounter {
     private int hour;
     private int min;
     private int sec;
@@ -16,21 +16,26 @@ public class TaimeCounter implements Runnable {
         return sec;
     }
 
-    @Override
-    public void run() {
-        for (int i = 0;; i++) {
+    public void watch() {
+        for (int i = 1;; i++) {
             hour = i / 3600;
             min = (i % 3600) / 60;
             sec = i % 60;
             System.out.println(hour + ":" + min + ":" + sec);
             if (hour > 23) {
-                run();
+                watch();
             }
+
+            Thread massege = new Thread(new Massage(i));
+            massege.start();
+
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+
         }
 
 
