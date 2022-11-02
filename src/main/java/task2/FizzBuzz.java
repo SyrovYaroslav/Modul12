@@ -1,71 +1,71 @@
 package task2;
-import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
+import java.util.function.IntConsumer;
 
 public class FizzBuzz extends Thread{
-    private final Semaphore semaphore;
-    private final int n;
+    int n;
 
-    public FizzBuzz(int n, Semaphore semaphore) {
+    private final Semaphore semFizz;
+    private final Semaphore semBuzz;
+    private final Semaphore semFizzBuzz;
+    private final Semaphore semNumber;
+
+    public FizzBuzz(int n) {
         this.n = n;
-        this.semaphore = semaphore;
+
+        semFizz = new Semaphore(0);
+        semBuzz = new Semaphore(0);
+        semFizzBuzz = new Semaphore(0);
+        semNumber = new Semaphore(1);
     }
 
-
-    public void fizz() {
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        for (int i = 1; i <= n; i++) {
-            if(i % 3 == 0) {
-                System.out.println("fizz");
+    public void fizz(Runnable printFizz) throws InterruptedException {
+        for (int i = 3; i <= n ; i+= 3) {
+            semFizz.acquire();
+            printFizz.run();
+            semNumber.release();
+            if ((i + 3) % 5 == 0) {
+                i += 3;
             }
         }
-        semaphore.release();
     }
 
-    public void buzz() {
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        for (int i = 1; i <= n; i++) {
-            if(i % 5 == 0) {
-                System.out.println("buzz");
+    public void buzz(Runnable printBuzz) throws InterruptedException {
+        for (int i = 5; i <= n ; i += 5) {
+            semBuzz.acquire();
+            printBuzz.run();
+            semNumber.release();
+            if ((i + 5) % 3 == 0) {
+                i += 5;
             }
         }
-        semaphore.release();
     }
 
-    public void fizzbuzz() {
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void fizzbuzz(Runnable printFizzBuzz) throws InterruptedException {
+        for (int i = 15; i <= n; i += 15) {
+            semFizzBuzz.acquire();
+            printFizzBuzz.run();
+            semNumber.release();
         }
+    }
+
+    public void number(IntConsumer number) throws InterruptedException {
         for (int i = 1; i <= n; i++) {
-            if(i % 15 == 0) {
-                System.out.println("fizzbuzz");
+            semNumber.acquire();
+            if((i % 3 == 0)&& (i % 5 == 0)){
+                semFizzBuzz.release();
+            }
+            else if(i % 5 == 0){
+                semBuzz.release();
+            }
+            else if(i % 3 == 0){
+                semFizz.release();
+            }
+            else{
+                number.accept(i);
+                semNumber.release();
             }
         }
-        semaphore.release();
     }
-
-    public void number() {
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        for (int i = 1; i <= n; i++) {
-            if(i % 3 != 0 && i % 5 != 0) {
-                System.out.println(i);
-            }
-        }
-        semaphore.release();
-    }
-
 }
+
