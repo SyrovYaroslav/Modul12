@@ -33,10 +33,6 @@ public class TaimeCounter {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
-
         }
-
-
     }
 }

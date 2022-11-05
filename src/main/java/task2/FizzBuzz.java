@@ -52,7 +52,7 @@ public class FizzBuzz extends Thread{
     public void number(IntConsumer number) throws InterruptedException {
         for (int i = 1; i <= n; i++) {
             semNumber.acquire();
-            if((i % 3 == 0)&& (i % 5 == 0)){
+            if((i % 3 == 0) && (i % 5 == 0)){
                 semFizzBuzz.release();
             }
             else if(i % 5 == 0){
