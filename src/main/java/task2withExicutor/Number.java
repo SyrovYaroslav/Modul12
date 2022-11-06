@@ -3,20 +3,38 @@ package task2withExicutor;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class Number implements Runnable {
-
+public class Number implements MyProducer {
     int n;
+    boolean updated = false;
     BlockingQueue<String> queue = new LinkedBlockingQueue<>();
 
-    public Number(int n, BlockingQueue<String> queue) {
+    @Override
+    public void setN(int n,BlockingQueue<String> queue) {
         this.n = n;
+        updated = true;
         this.queue = queue;
     }
+
+    @Override
+    public boolean isUpdated() {
+        return updated;
+    }
+
+
     @Override
     public void run() {
-        if (n % 3 != 0 && n % 5 != 0) {
-            queue.add(String.valueOf(n));
-
+        while (true) {
+            try {
+                if(updated) {
+                    updated = false;
+                    if (n % 3 != 0 && n % 5 != 0) {
+                        queue.put(String.valueOf(n));
+                    }
+                }
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

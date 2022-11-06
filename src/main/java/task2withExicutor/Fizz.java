@@ -3,21 +3,38 @@ package task2withExicutor;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class Fizz implements Runnable{
+public class Fizz implements MyProducer{
     int n;
+    boolean updated = false;
     BlockingQueue<String> queue = new LinkedBlockingQueue<>();
 
-
-    public Fizz(int n, BlockingQueue<String> queue) {
+    @Override
+    public void setN(int n,BlockingQueue<String> queue) {
         this.n = n;
+        updated = true;
         this.queue = queue;
     }
 
     @Override
-    public void run() {
-        if (n % 3 == 0 && n % 15 !=0) {
-            queue.add("fizz");
+    public boolean isUpdated() {
+        return updated;
+    }
 
+
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                if(updated) {
+                    updated = false;
+                    if (n % 3 == 0 && n % 15 != 0) {
+                        queue.put("fizz");
+                    }
+                }
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
